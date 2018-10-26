@@ -34,31 +34,49 @@ function togglePlayer() {
 }
 
 function checkWinner() {
-    // TODO: Write ONE win function which returns TRUE if a win is detected, or else FALSE
-    // TODO: Then write the other win functions, one at a time.
-    if (winHorizontally() || winVertically() || winDiagonallyUpRight() || winDiagonallyDownRight()) {
+    if (
+        winHorizontally()
+        // || winVertically()
+        // || winDiagonallyUpRight()
+        // || winDiagonallyDownRight()
+    ) {
         showWinner()
         removeClickListeners()
     }
 }
 
+const columnEdge = game.grid.length - 3;
+const rowEdge = game.grid[columnIndex].length - 3;
+const topEdge = game.grid.height - 3;
+
 function winHorizontally() {
-    const columnEdge = game.grid.length - 3;
-    for (let columnIndex = 0; columnIndex < columnEdge; columnIndex) {
-        const rowEdge = game.grid[columnIndex].length - 3;
+    for (let columnIndex = 0; columnIndex < columnEdge; columnIndex++) {
         for (let rowIndex = 0; rowIndex < rowEdge; rowIndex) {
-
-            // if (we have four in a row then) {
-                // return true
-            // }
-
+            const twoInARow = game.grid[columnIndex + 1][rowIndex]
+            const threeInARow = game.grid[columnIndex + 2][rowIndex]
+            const fourInARow = game.grid[columnIndex + 3][rowIndex]
+            const match = twoInARow && threeInARow && fourInARow;
+            return match
         }
     }
-
-    return false
 }
 
-function showWinner() { 
-    // TODO: show user who the winner is, but for now:
-    console.log(game.player, "won the game!")
+function winVertically(columnIndex, rowIndex) {
+    for (let columnIndex = 0; ColumnIndex < topEdge; ColumnIndex++) {
+        
+    const twoUp = game.grid[columnIndex + 1][rowIndex]
+    const threeUp = game.grid[columnIndex + 1][rowIndex]
+    const fourUp = game.grid[columnIndex + 1][rowIndex]
+    const match = twoUp && threeUp && fourUp;
+    return match
+    }
+}
+
+function showWinner() {
+    let winMsg = document.getElementById("winner");
+    let winElement = document.createElement("div")
+    winElement.innerHTML = `${game.player} won the game!`;
+    winMsg.appendChild(winElement)
+    console.log(game.player)
+    removeClickListeners();
 };
