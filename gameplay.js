@@ -1,16 +1,19 @@
 function clickBehavior(event) {
     const columnElement = event.currentTarget;
+    const columnIndex = parseInt(columnElement.dataset.columnIndex);
+    const rowIndex = columnElement.childElementCount - 1;
 
     if (columnElement.childElementCount === 6) {
         return;
     }
 
     dropDisk(columnElement);
-    recordDroppedDisk(columnElement);
-    checkWinner();
+    recordDroppedDisk(columnIndex, rowIndex);
+    // let columnIndex = colRowIndexes[0];
+    // let rowIndex = colRowIndexes[1];
+    // checkWinner(columnIndex, rowIndex);
     togglePlayer();
 
-    console.log(game.grid)
 }
 
 function dropDisk(columnElement) {
@@ -19,13 +22,12 @@ function dropDisk(columnElement) {
     columnElement.appendChild(disc);
 }
 
-function recordDroppedDisk(columnElement) {
-    const columnIndex = parseInt(columnElement.dataset.columnIndex);
-    const rowIndex = columnElement.childElementCount - 1;
+function recordDroppedDisk(columnIndex, rowIndex) {
     game.grid[columnIndex][rowIndex] = game.player;
 }
 
 function togglePlayer() {
+    console.log(game)
     if (game.player === "red") {
         game.player = "black";
     } else {
@@ -33,9 +35,9 @@ function togglePlayer() {
     }
 }
 
-function checkWinner() {
+function checkWinner(columnIndex, rowIndex) {
     if (
-        winHorizontally()
+        winHorizontally(columnIndex, rowIndex)
         // || winVertically()
         // || winDiagonallyUpRight()
         // || winDiagonallyDownRight()
@@ -45,11 +47,10 @@ function checkWinner() {
     }
 }
 
-const columnEdge = game.grid.length - 3;
-const rowEdge = game.grid[columnIndex].length - 3;
-const topEdge = game.grid.height - 3;
 
-function winHorizontally() {
+function winHorizontally(columnIndex, rowIndex) {
+    const columnEdge = game.grid.length - 3;
+    const rowEdge = game.grid[columnIndex].length - 3;
     for (let columnIndex = 0; columnIndex < columnEdge; columnIndex++) {
         for (let rowIndex = 0; rowIndex < rowEdge; rowIndex) {
             const twoInARow = game.grid[columnIndex + 1][rowIndex]
@@ -62,8 +63,8 @@ function winHorizontally() {
 }
 
 function winVertically(columnIndex, rowIndex) {
+    const topEdge = game.grid.height - 3;
     for (let columnIndex = 0; ColumnIndex < topEdge; ColumnIndex++) {
-        
     const twoUp = game.grid[columnIndex + 1][rowIndex]
     const threeUp = game.grid[columnIndex + 1][rowIndex]
     const fourUp = game.grid[columnIndex + 1][rowIndex]
